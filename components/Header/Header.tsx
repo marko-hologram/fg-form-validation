@@ -49,7 +49,13 @@ export const Header = () => {
   const { classes, cx } = useHeaderStyles();
   const router = useRouter();
 
-  const checkIsLinkActive = (href: string) => router.asPath === href;
+  const checkIsLinkActive = (href: string) => {
+    if (router.locale === "fr") {
+      return `/fr${router.asPath}` === href;
+    }
+
+    return router.asPath === href;
+  };
 
   return (
     <Box component="header" className={classes.header}>
@@ -79,16 +85,6 @@ export const Header = () => {
             </Link>
           </li>
           <li>
-            <Link className={cx(classes.navLink, checkIsLinkActive("/with-translations") ? classes.navLinkActive : false)} href="/with-translations">
-              With Translations
-            </Link>
-          </li>
-          <li>
-            <Link className={cx(classes.navLink, checkIsLinkActive("/with-custom-type") ? classes.navLinkActive : false)} href="/with-custom-type">
-              Custom Type
-            </Link>
-          </li>
-          <li>
             <Link className={cx(classes.navLink, checkIsLinkActive("/dynamic/5") ? classes.navLinkActive : false)} href="/dynamic/5">
               Dynamic (5)
             </Link>
@@ -96,6 +92,21 @@ export const Header = () => {
           <li>
             <Link className={cx(classes.navLink, checkIsLinkActive("/dynamic/16") ? classes.navLinkActive : false)} href="/dynamic/16">
               Dynamic (16)
+            </Link>
+          </li>
+          <li>
+            <Link className={cx(classes.navLink, checkIsLinkActive("/with-translations") ? classes.navLinkActive : false)} href="/with-translations">
+              With Translations
+            </Link>
+          </li>
+          <li>
+            <Link className={cx(classes.navLink, checkIsLinkActive("/fr/with-translations") ? classes.navLinkActive : false)} href="/fr/with-translations">
+              With Translations (FR)
+            </Link>
+          </li>
+          <li>
+            <Link className={cx(classes.navLink, checkIsLinkActive("/with-custom-type") ? classes.navLinkActive : false)} href="/with-custom-type">
+              Custom Type
             </Link>
           </li>
         </ul>
