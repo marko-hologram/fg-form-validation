@@ -36,7 +36,7 @@ type FormWithSchema = {
 };
 
 export const FormWithDynamicSchema = ({ minNumberOfPeople }: FormWithSchema) => {
-  const [formData, setFormData] = useState<BasicZodSchemaType | undefined>();
+  const [formData, setFormData] = useState<BasicYupSchemaType | undefined>();
 
   const dynamicYupSchema = useMemo(() => createDynamicYupSchema(minNumberOfPeople), [minNumberOfPeople]);
   const dynamicZodSchema = useMemo(() => createDynamicZodSchema(minNumberOfPeople), [minNumberOfPeople]);
@@ -44,11 +44,11 @@ export const FormWithDynamicSchema = ({ minNumberOfPeople }: FormWithSchema) => 
   const {
     register,
     handleSubmit,
-    reset,
-    formState: { errors, isSubmitSuccessful, isSubmitting },
-  } = useForm<BasicZodSchemaType>({
-    resolver: zodResolver(dynamicZodSchema),
-    // resolver: yupResolver(dynamicYupSchema),
+    trigger,
+    formState: { errors, isSubmitSuccessful, isSubmitting, isSubmitted },
+  } = useForm<BasicYupSchemaType>({
+    // resolver: zodResolver(dynamicZodSchema),
+    resolver: yupResolver(dynamicYupSchema),
     defaultValues: {
       firstName: "",
       lastName: "",
@@ -56,13 +56,13 @@ export const FormWithDynamicSchema = ({ minNumberOfPeople }: FormWithSchema) => 
     },
   });
 
-  // useEffect(() => {
-  //   if (minNumberOfPeople) {
-  //     reset();
-  //   }
-  // }, [minNumberOfPeople, reset]);
+  useEffect(() => {
+    if (isSubmitted && minNumberOfPeople) {
+      trigger();
+    }
+  }, [isSubmitted, minNumberOfPeople, trigger]);
 
-  const handleValidSubmit: SubmitHandler<BasicZodSchemaType> = (data) => {
+  const handleValidSubmit: SubmitHandler<BasicYupSchemaType> = (data) => {
     setFormData(data);
   };
 

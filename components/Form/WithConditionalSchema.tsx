@@ -33,12 +33,11 @@ type ConditionalZodSchemaType = z.infer<typeof conditionalZodSchema>;
 const conditionalYupSchema = yup.object({
   firstName: yup.string().trim().required("First name is required"),
   lastName: yup.string().required("First name is required"),
-  age: yup.number().integer("Cannot be decimal").positive("Must be a positive number").min(16, "Must be at least 16 years old"),
+  age: yup.number().typeError("Must be a number").integer("Cannot be decimal").positive("Must be a positive number").min(16, "Must be at least 16 years old"),
   sendMessage: yup.boolean(),
   messageEmailAddress: yup.string().when("sendMessage", {
     is: true,
-    then: yup.string().email("Valid email required").required("Message recipient required"),
-    otherwise: yup.string(),
+    then: (property) => property.email("Valid email required").required("Message recipient required"),
   }),
 });
 
