@@ -1,0 +1,15 @@
+.header {
+  background-color: var(--color-1);
+  color: var(--color-3);
+}
+
+.navList {
+  display: flex;
+  align-items: center;
+  list-style: none;
+}
+
+.navLink {
+  display: block;
+  padding: 1rem;
+}

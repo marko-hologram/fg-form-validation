@@ -1,0 +1,7 @@
+{
+  "SomeText": "Some text in English",
+  "FormError": {
+    "FirstNameRequired": "First name is required",
+    "LastNameRequired": "Last name is required"
+  }
+}

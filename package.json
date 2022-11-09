@@ -1,5 +1,5 @@
 {
-  "name": "rhf-guild",
+  "name": "next-app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,14 +9,28 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@types/node": "18.11.9",
-    "@types/react": "18.0.25",
-    "@types/react-dom": "18.0.8",
-    "eslint": "8.27.0",
-    "eslint-config-next": "13.0.2",
+    "@emotion/react": "^11.10.5",
+    "@emotion/server": "^11.10.0",
+    "@hookform/resolvers": "^2.9.10",
+    "@mantine/core": "^5.7.1",
+    "@mantine/hooks": "^5.7.1",
+    "@mantine/next": "^5.7.1",
+    "i18next": "^22.0.4",
+    "i18next-http-backend": "^2.0.1",
     "next": "13.0.2",
+    "next-i18next": "^12.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "typescript": "4.8.4"
+    "react-hook-form": "^7.39.1",
+    "react-i18next": "^12.0.0",
+    "yup": "^0.32.11",
+    "zod": "^3.19.1"
+  },
+  "devDependencies": {
+    "@types/node": "18.11.9",
+    "@types/react": "18.0.25",
+    "eslint": "^8.27.0",
+    "eslint-config-next": "13.0.2",
+    "typescript": "^4.8.4"
   }
 }

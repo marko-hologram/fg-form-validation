@@ -1,0 +1,7 @@
+{
+  "SomeText": "Quelques textes en français",
+  "FormError": {
+    "FirstNameRequired": "Le prénom est requis",
+    "LastNameRequired": "Le nom de famille est requis"
+  }
+}
