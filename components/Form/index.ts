@@ -4,3 +4,4 @@ export * from "./WithSchemaRegex";
 export * from "./WithConditionalSchema";
 export * from "./WithTranslations";
 export * from "./WithDynamicValues";
+export * from "./withCustomTypes";
