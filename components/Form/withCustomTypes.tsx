@@ -46,6 +46,7 @@ userRolesForSelect.push({ value: "InvalidRole", label: "Some Other Role" });
 const customTypeZodSchema = z.object({
   firstName: z.string().trim().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
+  // NOTE: To get proper error messages for enum type we have to define a custom errorMap in Zod
   role: z.nativeEnum(UserRole, {
     errorMap: (issue) => {
       let message = "User role is required";

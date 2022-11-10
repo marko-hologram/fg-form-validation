@@ -7,10 +7,12 @@ import z from "zod";
 import * as yup from "yup";
 import { ResultBlock } from "../ResultBlock";
 
+const delayTimeout = (delay: number) => new Promise((resolve) => setTimeout(resolve, delay));
+
 const basicZodSchema = z.object({
   firstName: z.string().trim().min(1, "First name is required"),
   lastName: z.string().min(1, "First name is required"),
-  // Cannot easily specify an error message when this is not checked. We get a generic message that says "Invalid literal value, expected true". Maybe with a custom ZodErrorMap (errorMap property) we could achieve this
+  // NOTE: Cannot easily specify an error message when this is not checked. We get a generic message that says "Invalid literal value, expected true". Maybe with a custom ZodErrorMap (errorMap property) we could achieve this
   usePersonalData: z.literal(true, { required_error: "Required error text", invalid_type_error: "You must accept this" }),
 });
 
@@ -19,7 +21,7 @@ type BasicZodSchemaType = z.infer<typeof basicZodSchema>;
 const basicYupSchema = yup.object({
   firstName: yup.string().trim().required("First name is required"),
   lastName: yup.string().required("First name is required"),
-  // Easy to validate required checkbox (true/false) inputs
+  // NOTE: Easy to validate required checkbox (true/false) inputs
   usePersonalData: yup.boolean().oneOf([true], "You must accept this"),
 });
 
@@ -37,14 +39,17 @@ export const FormWithSchema = () => {
     defaultValues: {
       firstName: "",
       lastName: "",
-      // With Zod schema we cannot set usePersonalData to false by default. Works with Yup
+      // NOTE: With Zod schema we cannot set usePersonalData to false by default. Works with Yup
       usePersonalData: false,
     },
   });
 
-  const handleValidSubmit: SubmitHandler<BasicYupSchemaType> = (data) => {
+  const handleValidSubmit: SubmitHandler<BasicYupSchemaType> = async (data) => {
+    await delayTimeout(3000);
+
     setFormData(data);
   };
+
   return (
     <>
       <form onSubmit={handleSubmit(handleValidSubmit)}>
@@ -54,7 +59,7 @@ export const FormWithSchema = () => {
         <Space h="md" />
         <Checkbox label="Yes I want you to harvest all my personal data" {...register("usePersonalData")} error={errors.usePersonalData?.message} />
         <Space h="md" />
-        <Button type="submit" disabled={isSubmitting}>
+        <Button loading={isSubmitting} type="submit">
           Submit
         </Button>
       </form>

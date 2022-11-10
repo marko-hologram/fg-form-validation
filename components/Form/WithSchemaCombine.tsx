@@ -81,7 +81,7 @@ export const FormWithCombinedSchema = () => {
         {availableOptions.age && (
           <>
             <Space h="md" />
-            {/* Zod requires the input to use valueAsNumber to actually pass number to it. Yup handles the "string" that HTML inputs return by default and validates it to confirm that it's a number */}
+            {/* NOTE: Zod requires the input to use valueAsNumber to actually pass number to it. Yup handles the "string" that HTML inputs return by default and validates it to confirm that it's a number */}
             <TextInput name="age" label="Age" {...register("age", { valueAsNumber: true })} error={errors.age?.message} />
           </>
         )}
