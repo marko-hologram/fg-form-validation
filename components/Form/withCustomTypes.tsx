@@ -6,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import z from "zod";
 import * as yup from "yup";
 import { ResultBlock } from "../ResultBlock";
+import { DatePicker } from "@mantine/dates";
 
 enum UserRole {
   Admin = "Admin",
@@ -44,9 +45,9 @@ userRolesForSelect.push({ value: "InvalidRole", label: "Some Other Role" });
 
 const customTypeZodSchema = z.object({
   firstName: z.string().trim().min(1, "First name is required"),
-  lastName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
   role: z.nativeEnum(UserRole, {
-    errorMap: (issue, ctx) => {
+    errorMap: (issue) => {
       let message = "User role is required";
 
       if (issue.code === z.ZodIssueCode.invalid_enum_value) {
@@ -56,18 +57,25 @@ const customTypeZodSchema = z.object({
       return { message };
     },
   }),
+  userIds: z.array(z.string()).min(1, "At least one user must be selected").max(2, "Maximum of two users can be selected"),
+  startDate: z.date({ invalid_type_error: "Start date needs to be a date", required_error: "Start date is required" }),
 });
 
 type CustomTypeZodSchemaType = z.infer<typeof customTypeZodSchema>;
 
 const customTypeYupSchema = yup.object({
   firstName: yup.string().trim().required("First name is required"),
-  lastName: yup.string().required("First name is required"),
+  lastName: yup.string().required("Last name is required"),
   role: yup
     .mixed<UserRole>()
     .oneOf(Object.values(UserRole), `User role must be one of the following values ${Object.values(UserRole).join(", ")}`)
     .required("User role is required"),
-  user: yup.array<User>().min(1, "At least one user must be selected").max(2, "Maximum of two users can be selected").required(),
+  userIds: yup.array().of(yup.string()).min(1, "At least one user must be selected").max(2, "Maximum of two users can be selected"),
+  startDate: yup
+    .date()
+    .min(new Date(Date.now() - 86400000), "Start date cannot be in the past")
+    .typeError("Start date needs to be a date")
+    .required("Start date is required"),
 });
 
 type CustomTypeYupSchemaType = yup.InferType<typeof customTypeYupSchema>;
@@ -86,43 +94,57 @@ export const FormWithCustomTypes = () => {
       firstName: "",
       lastName: "",
       role: null,
-      user: [],
+      userIds: [],
+      startDate: undefined,
     },
   });
 
   const handleValidSubmit: SubmitHandler<CustomTypeYupSchemaType> = (data) => {
+    console.log("data: ", data);
     setFormData(data);
   };
 
-  if (isSubmitSuccessful) {
-    return <ResultBlock>{JSON.stringify(formData)}</ResultBlock>;
-  }
-
   return (
-    <form onSubmit={handleSubmit(handleValidSubmit)}>
-      <TextInput label="First Name" {...register("firstName")} error={errors.firstName?.message} />
-      <Space h="md" />
-      <TextInput label="Last Name" {...register("lastName")} error={errors.lastName?.message} />
-      <Space h="md" />
-      <Controller
-        control={control}
-        name="user"
-        render={({ field }) => {
-          return <MultiSelect label="User" data={usersForSelect} {...field} error={errors.user?.message} />;
-        }}
-      />
-      <Space h="md" />
-      <Controller
-        control={control}
-        name="role"
-        render={({ field }) => {
-          return <Select label="User role" data={userRolesForSelect} {...field} error={errors.role?.message} />;
-        }}
-      />
-      <Space h="md" />
-      <Button type="submit" disabled={isSubmitting}>
-        Submit
-      </Button>
-    </form>
+    <>
+      <form onSubmit={handleSubmit(handleValidSubmit)}>
+        <TextInput label="First Name" {...register("firstName")} error={errors.firstName?.message} />
+        <Space h="md" />
+        <TextInput label="Last Name" {...register("lastName")} error={errors.lastName?.message} />
+        <Space h="md" />
+        <Controller
+          control={control}
+          name="userIds"
+          render={({ field }) => {
+            return <MultiSelect label="User" data={usersForSelect} {...field} error={errors.userIds?.message} />;
+          }}
+        />
+        <Space h="md" />
+        <Controller
+          control={control}
+          name="role"
+          render={({ field }) => {
+            return <Select label="User role" data={userRolesForSelect} {...field} error={errors.role?.message} />;
+          }}
+        />
+        <Space h="md" />
+        <Controller
+          control={control}
+          name="startDate"
+          render={({ field }) => {
+            return <DatePicker label="Start date" {...field} error={errors.startDate?.message} />;
+          }}
+        />
+        <Space h="md" />
+        <Button type="submit" disabled={isSubmitting}>
+          Submit
+        </Button>
+      </form>
+      {isSubmitSuccessful && (
+        <>
+          <Space h="md" />
+          <ResultBlock>{JSON.stringify(formData, null, 2)}</ResultBlock>
+        </>
+      )}
+    </>
   );
 };

@@ -28,7 +28,7 @@ export const BasicForm = () => {
   };
 
   if (isSubmitSuccessful) {
-    return <ResultBlock>{JSON.stringify(formData)}</ResultBlock>;
+    return <ResultBlock>{JSON.stringify(formData, null, 2)}</ResultBlock>;
   }
 
   return (

@@ -49,27 +49,31 @@ export const FormWithTranslationSchema = () => {
 
   const isMessageEmailFieldVisible = watch("sendMessage");
 
-  if (isSubmitSuccessful) {
-    return <ResultBlock>{JSON.stringify(formData)}</ResultBlock>;
-  }
-
   return (
-    <form onSubmit={handleSubmit(handleValidSubmit)}>
-      <TextInput label="First Name" {...register("firstName")} error={t(errors.firstName?.message)} />
-      <Space h="md" />
-      <TextInput label="Last Name" {...register("lastName")} error={t(errors.lastName?.message)} />
-      <Space h="md" />
-      <TextInput label="Age" {...register("age")} error={errors.age?.message} />
-      <Space h="md" />
-      <Checkbox label="Send email notification" {...register("sendMessage")} />
-      <Space h="md" />
-      {isMessageEmailFieldVisible && <TextInput {...register("messageEmailAddress")} error={errors.messageEmailAddress?.message} />}
-      <Space h="md" />
-      <Text>{t("SomeText")}</Text>
-      <Space h="md" />
-      <Button type="submit" disabled={isSubmitting}>
-        Submit
-      </Button>
-    </form>
+    <>
+      <form onSubmit={handleSubmit(handleValidSubmit)}>
+        <TextInput label="First Name" {...register("firstName")} error={t(errors.firstName?.message)} />
+        <Space h="md" />
+        <TextInput label="Last Name" {...register("lastName")} error={t(errors.lastName?.message)} />
+        <Space h="md" />
+        <TextInput label="Age" {...register("age")} error={errors.age?.message} />
+        <Space h="md" />
+        <Checkbox label="Send email notification" {...register("sendMessage")} />
+        <Space h="md" />
+        {isMessageEmailFieldVisible && <TextInput {...register("messageEmailAddress")} error={errors.messageEmailAddress?.message} />}
+        <Space h="md" />
+        <Text>{t("SomeText")}</Text>
+        <Space h="md" />
+        <Button type="submit" disabled={isSubmitting}>
+          Submit
+        </Button>
+      </form>
+      {isSubmitSuccessful && (
+        <>
+          <Space h="md" />
+          <ResultBlock>{JSON.stringify(formData, null, 2)}</ResultBlock>
+        </>
+      )}
+    </>
   );
 };

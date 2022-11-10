@@ -247,6 +247,13 @@
     "@radix-ui/react-scroll-area" "1.0.0"
     react-textarea-autosize "8.3.4"
 
+"@mantine/dates@^5.7.1":
+  version "5.7.1"
+  resolved "https://registry.yarnpkg.com/@mantine/dates/-/dates-5.7.1.tgz#269cd812bee7d8ea2d14eb59df85c4c8fd32c301"
+  integrity sha512-5MHrRFqaF5qGaL0YEOEzaWMXnqYOy2eG6K2Dj5cU5n6ooMI0JEqDrfuP+YcXsd28OysgH97kmvZmIZpumAUdVg==
+  dependencies:
+    "@mantine/utils" "5.7.1"
+
 "@mantine/hooks@^5.7.1":
   version "5.7.1"
   resolved "https://registry.yarnpkg.com/@mantine/hooks/-/hooks-5.7.1.tgz#4924f33687957802541b6f1d49d7bffa56a49d8f"
@@ -851,6 +858,11 @@ damerau-levenshtein@^1.0.8:
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/damerau-levenshtein/-/damerau-levenshtein-1.0.8.tgz#b43d286ccbd36bc5b2f7ed41caf2d0aba1f8a6e7"
   integrity sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==
+
+dayjs@^1.11.6:
+  version "1.11.6"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.6.tgz#2e79a226314ec3ec904e3ee1dd5a4f5e5b1c7afb"
+  integrity sha512-zZbY5giJAinCG+7AGaw0wIhNZ6J8AhWuSXKvuc1KAyMiRsvGQWqh4L+MomvhdAYjN+lqvVCMq1I41e3YHvXkyQ==
 
 debug@^2.6.9:
   version "2.6.9"
@@ -2114,9 +2126,9 @@ react-dom@18.2.0:
     scheduler "^0.23.0"
 
 react-hook-form@^7.39.1:
-  version "7.39.1"
-  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.39.1.tgz#ded87d4b3f6692d1f9219515f78ca282b6e1ebf7"
-  integrity sha512-MiF9PCILN5KulhSGbnjohMiTOrB47GerDTichMNP0y2cPUu1GTRFqbunOxCE9N1499YTLMV/ne4gFzqCp1rxrQ==
+  version "7.39.2"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.39.2.tgz#1003ed63dcc4efc96be686e9aef481f63b58715b"
+  integrity sha512-rCeCa1+sIcgI9PjgGmev9bVqHCwYwhjkbsXitr+giQ/P0mf/AGwUBtCdKC1lRu7egrxbLwqO9cWNWpXW4FrsHA==
 
 react-i18next@^11.18.4:
   version "11.18.6"

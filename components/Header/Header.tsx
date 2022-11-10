@@ -109,6 +109,11 @@ export const Header = () => {
               Custom Type
             </Link>
           </li>
+          <li>
+            <Link className={cx(classes.navLink, checkIsLinkActive("/with-schema-combine") ? classes.navLinkActive : false)} href="/with-schema-combine">
+              Combined Schema
+            </Link>
+          </li>
         </ul>
       </nav>
     </Box>

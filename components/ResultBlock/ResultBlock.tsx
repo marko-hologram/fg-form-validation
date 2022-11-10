@@ -1,11 +1,32 @@
+import { createStyles } from "@mantine/core";
 import { ReactNode } from "react";
-
-import styles from "./ResultBlock.module.css";
 
 type ResultBlockProps = {
   children: ReactNode;
 };
 
+const useResultBlockStyles = createStyles((theme) => {
+  return {
+    container: {
+      overflowWrap: "break-word",
+      backgroundColor: theme.colors.dark[6],
+      color: theme.white,
+      padding: theme.spacing.lg,
+      borderRadius: theme.radius.md,
+    },
+    codeblock: {
+      margin: 0,
+      fontFamily: theme.fontFamilyMonospace,
+    },
+  };
+});
+
 export const ResultBlock = ({ children }: ResultBlockProps) => {
-  return <code className={styles.block}>{children}</code>;
+  const { classes } = useResultBlockStyles();
+
+  return (
+    <div className={classes.container}>
+      <pre className={classes.codeblock}>{children}</pre>
+    </div>
+  );
 };

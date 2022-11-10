@@ -10,7 +10,8 @@ import { ResultBlock } from "../ResultBlock";
 const basicZodSchema = z.object({
   firstName: z.string().trim().min(1, "First name is required"),
   lastName: z.string().min(1, "First name is required"),
-  usePersonalData: z.literal(true, { invalid_type_error: "You must accept this" }),
+  // Cannot easily specify an error message when this is not checked. We get a generic message that says "Invalid literal value, expected true". Maybe with a custom ZodErrorMap (errorMap property) we could achieve this
+  usePersonalData: z.literal(true, { required_error: "Required error text", invalid_type_error: "You must accept this" }),
 });
 
 type BasicZodSchemaType = z.infer<typeof basicZodSchema>;
@@ -18,6 +19,7 @@ type BasicZodSchemaType = z.infer<typeof basicZodSchema>;
 const basicYupSchema = yup.object({
   firstName: yup.string().trim().required("First name is required"),
   lastName: yup.string().required("First name is required"),
+  // Easy to validate required checkbox (true/false) inputs
   usePersonalData: yup.boolean().oneOf([true], "You must accept this"),
 });
 
@@ -35,6 +37,7 @@ export const FormWithSchema = () => {
     defaultValues: {
       firstName: "",
       lastName: "",
+      // With Zod schema we cannot set usePersonalData to false by default. Works with Yup
       usePersonalData: false,
     },
   });
@@ -42,22 +45,25 @@ export const FormWithSchema = () => {
   const handleValidSubmit: SubmitHandler<BasicYupSchemaType> = (data) => {
     setFormData(data);
   };
-
-  if (isSubmitSuccessful) {
-    return <ResultBlock>{JSON.stringify(formData)}</ResultBlock>;
-  }
-
   return (
-    <form onSubmit={handleSubmit(handleValidSubmit)}>
-      <TextInput label="First Name" {...register("firstName")} error={errors.firstName?.message} />
-      <Space h="md" />
-      <TextInput label="Last Name" {...register("lastName")} error={errors.lastName?.message} />
-      <Space h="md" />
-      <Checkbox label="Yes I want you to harvest all my personal data" {...register("usePersonalData")} error={errors.usePersonalData?.message} />
-      <Space h="md" />
-      <Button type="submit" disabled={isSubmitting}>
-        Submit
-      </Button>
-    </form>
+    <>
+      <form onSubmit={handleSubmit(handleValidSubmit)}>
+        <TextInput label="First Name" {...register("firstName")} error={errors.firstName?.message} />
+        <Space h="md" />
+        <TextInput label="Last Name" {...register("lastName")} error={errors.lastName?.message} />
+        <Space h="md" />
+        <Checkbox label="Yes I want you to harvest all my personal data" {...register("usePersonalData")} error={errors.usePersonalData?.message} />
+        <Space h="md" />
+        <Button type="submit" disabled={isSubmitting}>
+          Submit
+        </Button>
+      </form>
+      {isSubmitSuccessful && (
+        <>
+          <Space h="md" />
+          <ResultBlock>{JSON.stringify(formData, null, 2)}</ResultBlock>
+        </>
+      )}
+    </>
   );
 };

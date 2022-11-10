@@ -66,21 +66,25 @@ export const FormWithDynamicSchema = ({ minNumberOfPeople }: FormWithSchema) => 
     setFormData(data);
   };
 
-  if (isSubmitSuccessful) {
-    return <ResultBlock>{JSON.stringify(formData)}</ResultBlock>;
-  }
-
   return (
-    <form onSubmit={handleSubmit(handleValidSubmit)}>
-      <TextInput label="First Name" {...register("firstName")} error={errors.firstName?.message} />
-      <Space h="md" />
-      <TextInput label="Last Name" {...register("lastName")} error={errors.lastName?.message} />
-      <Space h="md" />
-      <TextInput label="Number of people" {...register("numberOfPeople")} error={errors.numberOfPeople?.message} />
-      <Space h="md" />
-      <Button type="submit" disabled={isSubmitting}>
-        Submit
-      </Button>
-    </form>
+    <>
+      <form onSubmit={handleSubmit(handleValidSubmit)}>
+        <TextInput label="First Name" {...register("firstName")} error={errors.firstName?.message} />
+        <Space h="md" />
+        <TextInput label="Last Name" {...register("lastName")} error={errors.lastName?.message} />
+        <Space h="md" />
+        <TextInput label="Number of people" {...register("numberOfPeople")} error={errors.numberOfPeople?.message} />
+        <Space h="md" />
+        <Button type="submit" disabled={isSubmitting}>
+          Submit
+        </Button>
+      </form>
+      {isSubmitSuccessful && (
+        <>
+          <Space h="md" />
+          <ResultBlock>{JSON.stringify(formData, null, 2)}</ResultBlock>
+        </>
+      )}
+    </>
   );
 };
